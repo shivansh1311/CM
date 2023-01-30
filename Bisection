@@ -1,0 +1,42 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+float f(int x){
+    return x*x-3;
+}
+
+int main() {
+    float a,b,n,c,d,e;
+    printf("Enter lower bound: ");
+    scanf("%f",&a);
+      printf("Enter upperr bound: ");
+    scanf("%f",&b);
+     printf("Enter no of iteration: ");
+    scanf("%f",&n);
+   
+    for(int i=0; i<n; i++){
+        
+        d=f(a);
+        e=f(b);
+        c=(a+b)/2;
+        if(d>0 && e<0){
+            if(f(c)>0){
+                a=c;
+            }else{
+                b=c;
+            }
+        }
+             if(d<0 && e>0){
+            if(f(c)>0){
+                b=c;
+            }else{
+                a=c;
+            }
+        }
+       
+    }
+    printf("root is %f",c);
+    
+    
+
+    return 0;
+}
