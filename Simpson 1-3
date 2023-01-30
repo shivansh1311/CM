@@ -15,7 +15,7 @@ int i,n;
 
 cout<<"Enter the x0,xn, no. of subintervals"<<endl;
 cin>>x0>>xn>>n;
-cout<<fixed;
+
 
 h=(xn-x0)/n;
 s=f(x0)+f(xn);
