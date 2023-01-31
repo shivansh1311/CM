@@ -1,0 +1,233 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void bubble(int a[], int n)
+{
+    for(int i=0;i<n-2;i++)
+    {
+        for(int j=0;j<n-i-1;j++)
+        {
+            if(a[j]>a[j+1])
+            {
+                a[j]=a[j]+a[j+1];
+                a[j+1]=a[j]-a[j+1];
+                a[j]=a[j]-a[j+1];
+            }
+        }
+    }
+}
+
+void selection(int a[], int n)
+{
+    for(int i=0;i<n-1;i++)
+    {
+        int min=i;
+        for(int j=i+1;j<n;j++)
+        {
+            if(a[j]<a[min])
+            {
+                min=j;
+            }
+        }
+        if(i!=min)
+        {
+            a[i]=a[i]+a[min];
+            a[min]=a[i]-a[min];
+            a[i]=a[i]-a[min];
+        }
+    }
+}
+
+void insertion(int a[], int n)
+{
+    for(int i=1;i<n;i++)
+    {
+        int key=a[i];
+        int j=i-1;
+        while(j>=0 && a[j]>key)
+        {
+            a[j]=a[j]+a[j+1];
+            a[j+1]=a[j]-a[j+1];
+            a[j]=a[j]-a[j+1];
+            j=j-1;
+        }
+        a[j+1]=key;
+    }
+}
+
+int partition(int a[], int low, int high)
+{
+    int pivot = a[high];
+    int i = (low - 1);
+    for (int j = low; j < high; j++)
+    {
+        if (a[j] <= pivot)
+        {
+            i++;
+            if(i!=j)
+            {
+                a[i]=a[i]+a[j];
+                a[j]=a[i]-a[j];
+                a[i]=a[i]-a[j];
+            }
+        }
+    }
+    if(i+1!=high)
+    {
+        a[i+1]=a[i+1]+a[high];
+        a[high]=a[i+1]-a[high];
+        a[i+1]=a[i+1]-a[high];
+    }
+    return (i + 1);
+}
+
+void quick(int a[], int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(a, low, high);
+        quick(a, low, pi - 1);
+        quick(a, pi + 1, high);
+    }
+}
+
+
+void shell(int a[], int n)
+{
+    int dimstep[3]={1,3,5};
+    for(int step=0;step<3;step++)
+    {
+        int k=dimstep[step];
+        int s=0;
+        for(int i=s+k;i<n;i=k+s)
+        {
+            int temp=a[i];
+            int j=i-k;
+            while(temp<a[j] && j>=0)
+            {
+                a[j+k]=a[j];
+                j=j-k;
+            }
+            a[j+k]=temp;
+            s++;
+        }
+    }
+}
+void merge(int a[], int s , int r){
+    int mid=(s+r)/2;
+    int s_l=mid-s+1;
+    int s_r=r-mid;
+    int * f=new int[s_l];
+    int* e=new int[s_r];
+    int index=s;
+    for(int i=0; i<s_l; i++){
+        f[i]=a[index];
+        index++;
+    }
+    index=mid+1;
+     for(int i=0; i<s_r; i++){
+        e[i]=a[index];
+        index++;
+     }
+   int i1=0;
+    int i2=0;
+    index=s;
+    
+    while(i1<s_l && i2<s_r){
+        if(f[i1]<e[i2]){
+            a[index]=f[i1];
+            index++;
+            i1++;
+        }
+        else{
+            a[index]=e[i2];
+            index++;
+            i2++;
+        }
+    }
+        while(i1<s_l){
+            a[index]=f[i1];
+             index++;
+            i1++;
+        }
+        while(i2<s_r){
+            a[index]=e[i2];
+             index++;
+            i2++;
+        }
+        
+    
+    
+}
+
+void mergeSort(int a[], int s, int r){
+    if(s>=r){
+        return;
+    }
+    int mid=(s+r)/2;
+    mergeSort(a, s, mid);
+    mergeSort(a, mid+1, r);
+    
+    merge(a, s,r);
+}
+
+
+void print(int a[], int n)
+{
+    for(int i=0;i<n;i++)
+    {
+        printf("%d ",a[i]);
+    }
+}
+
+int main()
+{
+    int a[10];
+    int option=0, n;
+    printf("SORTING TECHNIQUES\n");
+    printf("Enter no of elements - ");
+    scanf("%d",&n);
+    printf("Enter values in array - ");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    while(option!=7)
+    {
+        printf("\nEnter 1 for Bubble Sort, 2 for Selection Sort, 3 for Insertion Sort, 4 for Quick Sort, 5 for Shell Sort , 6 for Merge Sort and 7 for Exit - ");
+        scanf("%d",&option);
+        switch(option)
+        {
+            case 1:
+                bubble(a,n);
+                print(a, n);
+                break;
+            case 2:
+                selection(a,n);
+                print(a, n);
+                break;
+            case 3:
+                insertion(a,n);
+                print(a, n);
+                break;
+            case 4:
+                quick(a, 0, n-1);
+                print(a, n);
+                break;
+            case 5:
+                shell(a,n);
+                print(a, n);
+                break;
+             case 6:
+                mergeSort(a,0,n-1);
+                print(a,n);
+                break;
+            case 7:
+                printf("EXITING!!!");
+                break;
+            default:
+                printf("Enter 1-7");
+        }
+    }
+}
